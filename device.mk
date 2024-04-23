@@ -16,6 +16,10 @@
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
+RODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint@2.1-service \
+    android.hardware.biometrics.fingerprint@2.3-service.xiaomi \
+
 PRODUCT_PACKAGES += \
     sensors.xiaomi \
     android.hardware.bluetooth.audio-impl \
@@ -39,6 +43,9 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_PACKAGES += \
     android.hardware.gnss-V2-ndk.vendor \
     vendor.qti.gnss@4.0 \
+    vendor.qti.gnss@4.0-service \
+    vendor.qti.gnss@4.0-impl \
+    vendor.qti.gnss@4.0-service-qti \
     vendor.qti.gnss@4.0-service \
     vendor.qti.hardware.iop@2.0 \
     vendor.qti.hardware.iop@2.0-service \
@@ -72,11 +79,6 @@ PRODUCT_PACKAGES += \
 # Init script
 PRODUCT_PACKAGES += \
     init.device.rc
-
-# Fingerprint
-PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1 \
-    android.hardware.biometrics.fingerprint@2.1-service
 
 # FUSE passthrough
 PRODUCT_SYSTEM_PROPERTIES += \
