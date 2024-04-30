@@ -41,12 +41,6 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.config.avoid_gfx_accel=true
 
 PRODUCT_PACKAGES += \
-    android.hardware.gnss-V2-ndk.vendor \
-    vendor.qti.gnss@4.0 \
-    vendor.qti.gnss@4.0-service \
-    vendor.qti.gnss@4.0-impl \
-    vendor.qti.gnss@4.0-service-qti \
-    vendor.qti.gnss@4.0-service \
     vendor.qti.hardware.iop@2.0 \
     vendor.qti.hardware.iop@2.0-service \
     vendor.qti.hardware.iop@2.0-impl
