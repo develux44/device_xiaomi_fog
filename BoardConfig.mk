@@ -41,7 +41,7 @@ BOARD_MKBOOTIMG_ARGS += --dtb $(DEVICE_PATH)-kernel/dtb.img
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)-kernel/dtbo.img
 
 # OTA assert
-TARGET_OTA_ASSERT_DEVICE := fog,rain,wind
+TARGET_OTA_ASSERT_DEVICE := fog
 
 # Screen density
 TARGET_SCREEN_DENSITY := 320
