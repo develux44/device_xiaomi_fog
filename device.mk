@@ -15,11 +15,16 @@
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
 LOC_HIDL_VERSION := 4.0
 
+VENDOR_PROPERTY_OVERRIDES += \
+    ro.crypto.dm_default_key.options_format.version=2 \
+    ro.crypto.volume.metadata.method=dm-default-key
+
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 RODUCT_PACKAGES += \
+    libstdc++_vendor \
     android.hardware.biometrics.fingerprint@2.1-service \
     android.hardware.biometrics.fingerprint@2.3-service.xiaomi \
 
@@ -62,9 +67,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/mixer_paths_bengal_idp.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths_idp_india.xml
 
-PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.audio.policy.engine.odm=true
-
 # Boot animation
 TARGET_SCREEN_HEIGHT := 1650
 TARGET_SCREEN_WIDTH := 720
@@ -82,16 +84,9 @@ PRODUCT_SYSTEM_PROPERTIES += \
     persist.sys.fuse.passthrough.enable=true
 
 # Kernel
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)-kernel/kernel
-
-PRODUCT_COPY_FILES += \
-    $(TARGET_PREBUILT_KERNEL):kernel \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)-kernel/vendor-modules,$(TARGET_COPY_OUT_VENDOR)/lib/modules)
-
-PRODUCT_VENDOR_KERNEL_HEADERS += $(LOCAL_PATH)-kernel/kernel-headers
 
 # Media
-PRODUCT_ODM_PROPERTIES += \
+PRODUCT_PRODUCT_PROPERTIES += \
     media.settings.xml=/vendor/etc/media_profiles_khaje.xml
 
 # NFC

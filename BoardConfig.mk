@@ -12,6 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Disable sparse for ext/f2fs images
+TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
+TARGET_USERIMAGES_SPARSE_F2FS_DISABLED := true
+
+# Power
+TARGET_TAP_TO_WAKE_NODE := "/proc/tp_gesture"
+
 DEVICE_PATH := device/xiaomi/fog
 
 # Board Info
@@ -22,8 +29,8 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DEVICE_PATH)/configs/hidl/xiaomi
 DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/configs/hidl/xiaomi_manifest.xml
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/hidl/compatibility_matrix.xml
 
-ODM_MANIFEST_SKUS += c3qn
-ODM_MANIFEST_C3QN_FILES := $(DEVICE_PATH)/configs/hidl/manifest_c3qn.xml
+PRODUCT_MANIFEST_SKUS += c3qn
+PRODUCT_MANIFEST_C3QN_FILES := $(DEVICE_PATH)/configs/hidl/manifest_c3qn.xml
 
 # Init
 TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_fog
@@ -51,11 +58,7 @@ BOARD_TAGS_OFFSET        := 0x00000100
 
 BOARD_BOOT_HEADER_VERSION := 3
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
-BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
-
 BOARD_PREBUILT_DTBOIMAGE := device/xiaomi/fog-kernel/dtbo.img
-TARGET_PREBUILT_DTB := device/xiaomi/fog-kernel/dtb.img
-
 BOARD_KERNEL_CMDLINE += \
     androidboot.init_fatal_reboot_target=recovery \
     androidboot.memcg=1 \
