@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
-LOC_HIDL_VERSION := 4.0
+# BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
+# LOC_HIDL_VERSION := 4.0
 
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
