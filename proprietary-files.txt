@@ -1,2 +1,0 @@
-# Fingerprint - from FOG MIUI
-vendor/lib64/hw/fingerprint.fpc.default.so:vendor/lib64/hw/fingerprint.fpc.bengal.so|37da969ca0685ed4481203fbc83aa68d2d83d50e

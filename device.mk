@@ -12,58 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
-# LOC_HIDL_VERSION := 4.0
+DEVICE_PATH := device/xiaomi/fog
 
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
-RODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1-service \
-    android.hardware.biometrics.fingerprint@2.3-service.xiaomi \
-
-PRODUCT_PACKAGES += \
-    sensors.xiaomi \
-    android.hardware.bluetooth.audio-impl \
-    android.hardware.bluetooth.audio-impl-qti
-
-
-VENDOR_PROPERTY_OVERRIDES += \
-    vendor.display.enable_async_powermode=0 \
-    debug.renderengine.backend=skiaglthreaded \
-    ro.hwui.render_ahead=20
-
-PRODUCT_PRODUCT_PROPERTIES += \
-    persist.dbg.volte_avail_ovr=1 \
-    persist.dbg.wfc_avail_ovr=1 \
-    persist.dbg.vt_avail_ovr=1
-
-# GFX
-PRODUCT_VENDOR_PROPERTIES += \
-    ro.config.avoid_gfx_accel=true
-
-PRODUCT_PACKAGES += \
-    vendor.qti.hardware.iop@2.0 \
-    vendor.qti.hardware.iop@2.0-service \
-    vendor.qti.hardware.iop@2.0-impl
-
 # API Level
-PRODUCT_SHIPPING_API_LEVEL := 30
+BOARD_SHIPPING_API_LEVEL := 30
+BOARD_API_LEVEL := 30
+
+SHIPPING_API_LEVEL := 30
+PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 
 # AB
 TARGET_IS_VAB := true
 PRODUCT_VIRTUAL_AB_OTA := true
 
 # Audio
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.vendor.audio.us.proximity=true
+
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/audio/mixer_paths_bengal_idp.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths_idp_india.xml
-
-PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.audio.policy.engine.odm=true
+    $(LOCAL_PATH)/configs/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths_idp_india.xml
 
 # Boot animation
 TARGET_SCREEN_HEIGHT := 1650
@@ -71,89 +45,92 @@ TARGET_SCREEN_WIDTH := 720
 
 # Camera
 PRODUCT_PACKAGES += \
+    libcamera_provider_shim \
     libpiex_shim
 
-# Init script
+# Display
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.surface_flinger.set_display_power_timer_ms=1000 \
+    ro.surface_flinger.set_idle_timer_ms=1100 \
+    ro.surface_flinger.set_touch_timer_ms=200 \
+    ro.surface_flinger.use_content_detection_for_refresh_rate=true
+
+PRODUCT_VENDOR_PROPERTIES += \
+    vendor.display.override_doze_mode=1
+
+# Fingerprint
 PRODUCT_PACKAGES += \
-    init.device.rc
+    android.hardware.biometrics.fingerprint@2.3-service.xiaomi \
+    com.fingerprints.extension@1.0.vendor \
+    libvendor.goodix.hardware.biometrics.fingerprint@2.1.vendor \
+    vendor.xiaomi.hardware.fingerprintextension@1.0.vendor
 
-# FUSE passthrough
 PRODUCT_SYSTEM_PROPERTIES += \
-    persist.sys.fuse.passthrough.enable=true
+    ro.hardware.fp.sideCap=true
 
-# Kernel
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)-kernel/kernel
-
-PRODUCT_COPY_FILES += \
-    $(TARGET_PREBUILT_KERNEL):kernel \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)-kernel/vendor-modules,$(TARGET_COPY_OUT_VENDOR)/lib/modules)
-
-PRODUCT_VENDOR_KERNEL_HEADERS += $(LOCAL_PATH)-kernel/kernel-headers
+# Health
+TARGET_USE_HIDL_QTI_HEALTH := true
 
 # Media
 PRODUCT_ODM_PROPERTIES += \
     media.settings.xml=/vendor/etc/media_profiles_khaje.xml
 
+DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/hidl/compatibility_matrix.xml
 # NFC
-TARGET_COMMON_QTI_COMPONENTS += \
-    nfc
-
-TARGET_COMMON_QTI_COMPONENTS += \
-    adreno \
-    alarm \
-    audio \
-    av \
-    bt \
-    display \
-    gps \
-    init \
-    media \
-    nfc \
-    overlay \
-    perf \
-    telephony \
-    vibrator \
-    wfd \
-    wlan 
-
-TARGET_NFC_SKU :=  c3qn
+$(call inherit-product, hardware/st/nfc/nfc_vendor_product.mk)
+ODM_MANIFEST_SKUS += $(TARGET_NFC_SKU)
+TARGET_USES_ST_AIDL_NFC := true
+TARGET_NFC_SKU := c3qn
+ODM_MANIFEST_C3QN_FILES := $(DEVICE_PATH)/configs/hidl/manifest_c3qn.xml
 
 PRODUCT_PACKAGES += \
+    com.android.nfc_extras \
     libchrome.vendor \
+    NfcNci \
     SecureElement \
-    vendor.nxp.hardware.nfc@2.0-service
-
-PRODUCT_SYSTEM_PROPERTIES += \
-    ro.nfc.port=I2C \
-    ro.hardware.nfc_nci=pn8x
+    Tag
 
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/nfc/,$(TARGET_COPY_OUT_VENDOR)/etc)
+    $(LOCAL_PATH)/configs/nfc/libnfc-hal-st.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-hal-st.conf
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    ro.nfc.port=I2C
 
 # Overlays
 PRODUCT_PACKAGES += \
     AOSPAFogFrameworksOverlay \
     FogFrameworksOverlay \
-    FogPowerFrameworksOverlay \
     FogSettingsOverlay \
     FogSystemUIOverlay \
     FogWifiOverlay \
+    FogWifiMainline \
     SettingsProvider220333QAGOverlay \
     SettingsProvider220333QLOverlay \
     SettingsProvider220333QBIOverlay \
     SettingsProvider220333QNYOverlay
 
-# Soong namespaces
-PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
+# Rootdir / Init files
+PRODUCT_PACKAGES += \
+    init.device.rc
+
+# Sensors
+PRODUCT_PACKAGES += \
+    sensors.xiaomi \
+    android.hardware.sensors@1.0-service \
+    android.frameworks.sensorservice@1.0.vendor \
+    android.hardware.sensors@1.0-impl
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
 # VNDK
 PRODUCT_COPY_FILES += \
-    prebuilts/vndk/v32/arm64/arch-arm-armv8-a/shared/vndk-sp/libhidlbase.so:$(TARGET_COPY_OUT_VENDOR)/lib/libhidlbase-v32.so \
     prebuilts/vndk/v32/arm64/arch-arm64-armv8-a/shared/vndk-sp/libhidlbase.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libhidlbase-v32.so
 
-# Health
-TARGET_USE_HIDL_QTI_HEALTH := true
+
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += \
+    $(LOCAL_PATH)
 
 # Inherit from vendor blobs
 $(call inherit-product, vendor/xiaomi/fog/fog-vendor.mk)

@@ -1,4 +1,11 @@
 runtime_resource_overlay {
     name: "FogWifiOverlay",
+    manifest: "AndroidManifest.xml",
+    vendor: true,
+}
+
+runtime_resource_overlay {
+    name: "FogWifiMainline",
+    manifest: "AndroidGoogleManifest.xml",
     vendor: true,
 }

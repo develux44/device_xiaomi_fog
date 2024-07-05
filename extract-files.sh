@@ -11,20 +11,11 @@ function blob_fixup() {
             "${SIGSCAN}" -p "13 0A 00 94" -P "1F 20 03 D5" -f "${2}"
             ;;
         vendor/lib64/camera/components/com.qti.node.mialgocontrol.so)
-            llvm-strip --strip-debug  "${2}"
+            "${ANDROID_ROOT}"/prebuilts/clang/host/linux-x86/clang-r450784e/bin/llvm-strip --strip-debug "${2}"
             grep -q "libpiex_shim.so" "${2}" || ${PATCHELF} --add-needed "libpiex_shim.so" "${2}"
             ;;
-        # Use VNDK 32 libhidlbase
-            vendor/lib64/vendor.silead.hardware.fingerprintext@1.0.so)
-            "${PATCHELF}" --remove-needed "libhidlbase.so" "${2}"
-            sed -i "s/libhidltransport.so/libhidlbase-v32.so\x00/" "${2}"
-            ;;
-        vendor/lib64/com.fingerprints.extension@1.0.so)
-            "${PATCHELF}" --remove-needed "libhidlbase.so" "${2}"
-            sed -i "s/libhidltransport.so/libhidlbase-v32.so\x00/" "${2}"
-            ;;
-        vendor/bin/hw/vendor.silead.hardware.fingerprintext@1.0-service)
-            "${PATCHELF}" --replace-needed "libhidlbase.so" "libhidlbase-v32.so" "${2}"
+        vendor/lib/android.hardware.camera.provider@2.4-legacy.so | vendor/lib64/android.hardware.camera.provider@2.4-legacy.so)
+            grep -q "libcamera_provider_shim.so" "${2}" || "${PATCHELF}" --add-needed "libcamera_provider_shim.so" "${2}"
             ;;
     esac
 }
