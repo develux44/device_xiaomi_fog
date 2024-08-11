@@ -115,9 +115,7 @@ PRODUCT_COPY_FILES += \
 
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/hidl/compatibility_matrix.xml
 # NFC
-$(call inherit-product, hardware/st/nfc/nfc_vendor_product.mk)
 ODM_MANIFEST_SKUS += $(TARGET_NFC_SKU)
-TARGET_USES_ST_AIDL_NFC := true
 TARGET_NFC_SKU := c3qn
 ODM_MANIFEST_C3QN_FILES := $(DEVICE_PATH)/configs/hidl/manifest_c3qn.xml
 
@@ -128,11 +126,12 @@ PRODUCT_PACKAGES += \
     SecureElement \
     Tag
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nfc/libnfc-hal-st.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-hal-st.conf
+PPRODUCT_SYSTEM_PROPERTIES += \
+    ro.nfc.port=I2C \
+    ro.hardware.nfc_nci=pn8x
 
-PRODUCT_SYSTEM_PROPERTIES += \
-    ro.nfc.port=I2C
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/nfc/,$(TARGET_COPY_OUT_VENDOR)/etc)
 
 # Overlays
 PRODUCT_PACKAGES += \
