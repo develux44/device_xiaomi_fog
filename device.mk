@@ -114,12 +114,15 @@ PRODUCT_COPY_FILES += \
 
 
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/hidl/compatibility_matrix.xml
+
 # NFC
-ODM_MANIFEST_SKUS += $(TARGET_NFC_SKU)
 TARGET_NFC_SKU := c3qn
+ODM_MANIFEST_SKUS += $(TARGET_NFC_SKU)
 ODM_MANIFEST_C3QN_FILES := $(DEVICE_PATH)/configs/hidl/manifest_c3qn.xml
 
-PRODUCT_PACKAGES += \
+PPRODUCT_PACKAGES += \
+    android.hardware.nfc@1.2-service \
+    android.hardware.secure_element@1.2-service \
     com.android.nfc_extras \
     libchrome.vendor \
     NfcNci \
@@ -131,7 +134,12 @@ PPRODUCT_SYSTEM_PROPERTIES += \
     ro.hardware.nfc_nci=pn8x
 
 PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_c3qn/android.hardware.nfc.ese.xml \
+    frameworks/native/data/etc/android.hardware.nfc.uicc.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_c3qn/android.hardware.nfc.uicc.xml
+
+PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/nfc/,$(TARGET_COPY_OUT_VENDOR)/etc)
+
 
 # Overlays
 PRODUCT_PACKAGES += \
@@ -147,16 +155,36 @@ PRODUCT_PACKAGES += \
     SettingsProvider220333QBIOverlay \
     SettingsProvider220333QNYOverlay
 
+# Remove packages
+PRODUCT_PACKAGES += \
+    RemovePackages
+
 # Rootdir / Init files
 PRODUCT_PACKAGES += \
     init.device.rc
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.xiaomi \
-    android.hardware.sensors@1.0-service \
+    android.hardware.sensors@2.1-service.xiaomi-multihal \
+    android.frameworks.sensorservice@1.0 \
     android.frameworks.sensorservice@1.0.vendor \
-    android.hardware.sensors@1.0-impl
+    libsensorndkbridge \
+    sensors.xiaomi
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml
+
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.sensors.debug.ssc_qmi_debug=true \
+    persist.vendor.sensors.enable.bypass_worker=true \
+    persist.vendor.sensors.enable.rt_task=false \
+    persist.vendor.sensors.support_direct_channel=false
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
@@ -165,9 +193,21 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     prebuilts/vndk/v32/arm64/arch-arm64-armv8-a/shared/vndk-sp/libhidlbase.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libhidlbase-v32.so
 
+PRODUCT_COPY_FILES += \
+    prebuilts/vndk/v32/arm/arch-arm-armv7-a-neon/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib/libutils-v32.so \
+    prebuilts/vndk/v32/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v32.so
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
+
+# Enable vendor properties.
+PRODUCT_PROPERTY_OVERRIDES += \
+	wifi.aware.interface=wifi-aware0
+
+# Changes from CLO tree
+PRODUCT_PACKAGES += init.qti.dcvs.sh
+
 
 # Inherit from vendor blobs
 $(call inherit-product, vendor/xiaomi/fog/fog-vendor.mk)
