@@ -165,11 +165,10 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@2.1-service.xiaomi-multihal \
-    android.frameworks.sensorservice@1.0 \
-    android.frameworks.sensorservice@1.0.vendor \
-    libsensorndkbridge \
-    sensors.xiaomi
+    sensors.xiaomi \
+    android.hardware.sensors@2.0-ScopedWakelock.vendor \
+    android.hardware.sensors-service.xiaomi-multihal \
+    libsensorndkbridge
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
@@ -199,7 +198,8 @@ PRODUCT_COPY_FILES += \
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
+    $(LOCAL_PATH) \
+    hardware/xiaomi
 
 # Enable vendor properties.
 PRODUCT_PROPERTY_OVERRIDES += \

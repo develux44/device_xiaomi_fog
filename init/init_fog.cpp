@@ -128,34 +128,11 @@ void vendor_load_properties() {
 
     // Set hardware revision
     property_override("ro.boot.hardware.revision", GetProperty("ro.boot.hwversion", "").c_str());
-
-    // Set dalvik heap configuration
-    std::string heapstartsize, heapgrowthlimit, heapsize, heapminfree,
-			heapmaxfree, heaptargetutilization;
-
-    struct sysinfo sys;
-    sysinfo(&sys);
-
-    if (sys.totalram > 3072ull * 1024 * 1024) {
-        heapstartsize = "8m";
-        heapgrowthlimit = "128m";
-        heapsize = "256m";
-        heaptargetutilization = "0.75";
-        heapminfree = "512k";
-        heapmaxfree = "8m";
-    } else {
-        heapstartsize = "8m";
-        heapgrowthlimit = "128m";
-        heapsize = "256m";
-        heaptargetutilization = "0.75";
-        heapminfree = "512k";
-        heapmaxfree = "8m";
-    }
-
-    property_override("dalvik.vm.heapstartsize", heapstartsize);
-    property_override("dalvik.vm.heapgrowthlimit", heapgrowthlimit);
-    property_override("dalvik.vm.heapsize", heapsize);
-    property_override("dalvik.vm.heaptargetutilization", heaptargetutilization);
-    property_override("dalvik.vm.heapminfree", heapminfree);
-    property_override("dalvik.vm.heapmaxfree", heapmaxfree);
+    // Set dalvik heap configuration from CLO bengal tree
+    property_override("dalvik.vm.heapstartsize", "8m");
+    property_override("dalvik.vm.heapgrowthlimit", "128m");
+    property_override("dalvik.vm.heapsize", "256m");
+    property_override("dalvik.vm.heaptargetutilization", "0.75");
+    property_override("dalvik.vm.heapminfree", "512k");
+    property_override("dalvik.vm.heapmaxfree", "8m");
 }
