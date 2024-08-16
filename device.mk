@@ -208,6 +208,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Changes from CLO tree
 PRODUCT_PACKAGES += init.qti.dcvs.sh
 
+# USB
+PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0-service.basic
 
 # Inherit from vendor blobs
 $(call inherit-product, vendor/xiaomi/fog/fog-vendor.mk)
