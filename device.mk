@@ -54,6 +54,12 @@ PRODUCT_PACKAGES += \
     libcamera_provider_shim \
     libpiex_shim
 
+# Dex/ART optimization
+PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
+PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
+USE_DEX2OAT_DEBUG := false
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
+
 # Display
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.set_display_power_timer_ms=1000 \
