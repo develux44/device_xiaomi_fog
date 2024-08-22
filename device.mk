@@ -214,15 +214,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Changes from CLO tree
 PRODUCT_PACKAGES += init.qti.dcvs.sh
 
-# Kernel
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)-kernel/kernel
-
-PRODUCT_COPY_FILES += \
-    $(TARGET_PREBUILT_KERNEL):kernel \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)-kernel/vendor-modules,$(TARGET_COPY_OUT_VENDOR)/lib/modules)
-
-PRODUCT_VENDOR_KERNEL_HEADERS += $(LOCAL_PATH)-kernel/kernel-headers
-
 # USB
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic
