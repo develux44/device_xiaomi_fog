@@ -39,7 +39,6 @@ ro.vendor.audio.soundtrigger=sva
 
 # Bluetooth
 persist.vendor.bluetooth.modem_nv_support=true
-persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aac-aptx-aptxhd-ldac
 persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=false
 persist.vendor.qcom.bluetooth.enable.splita2dp=true
 persist.vendor.qcom.bluetooth.scram.enabled=false
@@ -95,9 +94,6 @@ ro.surface_flinger.vsync_sf_event_phase_offset_ns=6000000
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
 ro.opengles.version=196610
-
-# Incremental FS
-ro.incremental.enable=yes
 
 # NFC
 ro.hardware.nfc_nci=pn8x
