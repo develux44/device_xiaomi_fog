@@ -55,20 +55,14 @@ PRODUCT_PACKAGES += \
     libpiex_shim
 
 # Dex/ART optimization
-PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
-PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
-USE_DEX2OAT_DEBUG := false
-PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
+# PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
+#PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
+#USE_DEX2OAT_DEBUG := false
+#PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
 
 # Display
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.surface_flinger.set_display_power_timer_ms=1000 \
-    ro.surface_flinger.set_idle_timer_ms=1100 \
-    ro.surface_flinger.set_touch_timer_ms=200 \
-    ro.surface_flinger.use_content_detection_for_refresh_rate=true
-
-PRODUCT_VENDOR_PROPERTIES += \
-    vendor.display.override_doze_mode=1
+TARGET_USE_QCOM_OFFSET := true
+TARGET_DISPLAY_USE_SMOOTH_MOTION := true
 
 # Fingerprint
 PRODUCT_PACKAGES += \
