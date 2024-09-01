@@ -171,8 +171,9 @@ TARGET_SCREEN_DENSITY := 300
 # SOONG_CONFIG_SENSORS_XIAOMI += USES_SINGLE_TAP_SENSOR
 # SOONG_CONFIG_SENSORS_XIAOMI_USES_SINGLE_TAP_SENSOR := true
 
-# Changes from CLO 
+# Changes from CLO and Notkerd69
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/props/system.prop
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/props/vendor.prop
 
 # Sepolicy
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
