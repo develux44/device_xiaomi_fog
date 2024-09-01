@@ -135,4 +135,8 @@ void vendor_load_properties() {
     property_override("dalvik.vm.heaptargetutilization", "0.75");
     property_override("dalvik.vm.heapminfree", "512k");
     property_override("dalvik.vm.heapmaxfree", "8m");
+
+    // SafetyNet workaround
+    property_override("ro.oem_unlock_supported", "0");
+    property_override("ro.boot.verifiedbootstate", "green");
 }
